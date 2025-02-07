@@ -1,101 +1,106 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { useState } from "react"
+import Image from "next/image"
+import { motion } from "framer-motion"
+import Confetti from "react-confetti"
+import { WavyBackground } from "@/components/ui/wavy-background"
+import { div } from "framer-motion/client"
+
+const images = [
+  "/img1.png",
+  "/img2.png",
+  "/img3.png",
+  "/img5.png",
+  "/img4.png",
+  "/img6.png",
+  "/us.png", // Final Yes page
+]
+
+const buttonTexts = [
+  "No",
+  "Are you sure?",
+  "Are you really really sure?",
+  "You're breaking my heart 💔",
+  "Enough! I will turn evil! 😈",
+  "Now you have no option! Hehe 😈",
+]
+
+// SVG background pattern
+const backgroundSvg = `
+<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'>
+  <g fill-rule='evenodd'>
+    <g fill='%23FF69B4' fill-opacity='0.4'>
+      <path d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/>
+    </g>
+  </g>
+</svg>
+`
+
+export default function ValentinePage() {
+  const [step, setStep] = useState(0)
+  const [accepted, setAccepted] = useState(false)
+
+  // Ensure step does not exceed available images
+  const currentImage = images[accepted ? 6 : Math.min(step, images.length - 1)]
+  const currentButtonText = buttonTexts[Math.min(step, buttonTexts.length - 1)]
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <WavyBackground className="max-w-4xl mx-auto pb-40">
+    <div
+      className="flex flex-col items-center justify-center min-h-screen p-4 text-center"
+      // style={{
+      //   backgroundColor: "#FFB6C1", // Light pink
+      //   backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(backgroundSvg)}")`,
+      // }}
+    >
+      {accepted && <Confetti />}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col items-center"
+      >
+        {currentImage && (
           <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            src={currentImage || "/placeholder.svg"}
+            width={200}
+            height={200}
+            alt="Emotion"
+            className="rounded-lg  mb-6"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        )}
+
+        <h1 className="text-2xl font-bold mb-6 text-white drop-shadow-lg">
+          {accepted ?  "Yay! I knew you'd say yes! ❤️ \n\n\n\n From the moment I met you, my heart knew you were special. Every smile, every laugh, and every moment with you is a gift. Thank you for making my world brighter. Happy Valentine's Day Wifey! ❤️ i love you so much " : "Will you be my Valentine?"}
+        </h1>
+
+        {!accepted ? (
+          <div className="flex flex-col space-y-4">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-green-500 text-white px-6 py-3 rounded-full text-lg transition"
+              onClick={() => setAccepted(true)}
+            >
+              Yes
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-gray-400 text-white px-6 py-3 rounded-full text-lg  hover:bg-red-600 transition"
+              onClick={() => setStep((prev) => Math.min(prev + 1, buttonTexts.length - 1))}
+            >
+              {currentButtonText}
+            </motion.button>
+          </div>
+        ) : (
+           <div></div>
+        )}
+      </motion.div>
     </div>
-  );
+    </WavyBackground>
+  )
 }
+
